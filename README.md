@@ -25,7 +25,7 @@ go get -u github.com/go-sql-driver/mysql
 go install github.com/cosmtrek/air@latest
 ```
 
-[Dotenv](https://github.com/joho/godotenv)
+[Dotenv](https://github.com/joho/godotenv) To keep environment variables safe
 ```sh
 go get github.com/joho/godotenv
 ```
