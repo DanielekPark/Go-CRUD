@@ -5,6 +5,10 @@ A backend application to perform CRUD operations for tools/resources for fronten
 ## Note
 View the older repository using this [Link](https://github.com/DanielekPark/gosql)
 
+## Languages
+- Golang/Go
+- SQL
+
 ### Database platform
 [PlanetScale](https://planetscale.com/) MySQL database
 

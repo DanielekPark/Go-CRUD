@@ -4,25 +4,15 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-
 	"os"
-
-	"github.com/gofiber/fiber"
+	"ps_go/schema"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/gofiber/fiber"
 	"github.com/joho/godotenv"
 )
 
 var db *sql.DB
-
-type Result struct {
-	Id      int64
-	Name    string
-	Link    string
-	Details string
-	Types   string
-	Tags    string
-}
 
 func main() {
 	// fmt.Println("main.go")
@@ -37,13 +27,11 @@ func main() {
 		log.Fatal("failed to open db connection", err)
 	}
 
-	app := fiber.New()
-
 	//Routes
-
+	app := fiber.New()
 	//GET Requests
-	//Retrieves last row in the database
 	app.Get("/api", func(c *fiber.Ctx) {
+		//Retrieves last row in the database
 		query := "SELECT * FROM links ORDER BY id DESC LIMIT 1"
 
 		res, err := db.Query(query)
@@ -52,9 +40,9 @@ func main() {
 			log.Fatal("(GetLinks) db.Query", err)
 		}
 
-		results := []Result{}
+		results := []schema.Result{}
 		for res.Next() {
-			var link Result
+			var link schema.Result
 			err := res.Scan(&link.Id, &link.Name, &link.Link, &link.Details, &link.Types, &link.Tags)
 			if err != nil {
 				log.Fatal("(GetLinks) res.Scan", err)
@@ -62,7 +50,6 @@ func main() {
 			results = append(results, link)
 		}
 		c.Send(results)
-
 	})
 	//GET Requests using parameters and SQL flexible search
 	app.Get("/api/:id", func(c *fiber.Ctx) {
@@ -77,9 +64,9 @@ func main() {
 		}
 
 		//List of results
-		results := []Result{}
+		results := []schema.Result{}
 		for res.Next() {
-			var link Result
+			var link schema.Result
 			err := res.Scan(&link.Id, &link.Name, &link.Link, &link.Details, &link.Types, &link.Tags)
 			if err != nil {
 				log.Fatal("(No results) res.Scan", err)
