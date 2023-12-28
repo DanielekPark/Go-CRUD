@@ -1,9 +1,9 @@
-package Get
+package router
 
 import (
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
-func Retrieve(c *fiber.Ctx) {
+func Retrieve(app *fiber.Ctx) {
 
 }
