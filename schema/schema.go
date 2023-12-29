@@ -10,8 +10,7 @@ type Result struct {
 	Tags    string `json:"tags"`
 }
 
-//Search results of all links
-
+// Search results of all links
 type Results struct {
 	Results []Result `json:"results"`
 }
