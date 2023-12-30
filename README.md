@@ -36,7 +36,7 @@ go get github.com/joho/godotenv
 
 ### Command line
 
-[Link](https://stackoverflow.com/questions/43983718/how-can-i-globally-set-the-path-environment-variable-in-vs-code) to make changes to VS Code
+[Link](https://stackoverflow.com/questions/43983718/how-can-i-globally-set-the-path-environment-variable-in-vs-code) to the directions to make changes to VS Code
 ```sh
 go env GOPATH
 ```
