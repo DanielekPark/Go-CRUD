@@ -32,6 +32,7 @@ func main() {
 
 	app := fiber.New()
 
+	//Routes
 	app.Get("/api", func(c *fiber.Ctx) error {
 		query := "SELECT * FROM links ORDER BY id DESC LIMIT 1"
 
@@ -49,10 +50,30 @@ func main() {
 			}
 			results = append(results, link)
 		}
-
 		return c.JSON(results)
 	})
 
-	//Routes
+	app.Post("/api", func(c *fiber.Ctx) error {
+		link := new(schema.Result)
+
+		if err := c.BodyParser(link); err != nil {
+			log.Fatal("Unable to insert into db ", err)
+		}
+
+		query := `INSERT INTO links 
+		(id, name, link, details, type, tags) VALUES (?, ?, ?, ?, ?, ?)`
+		res, err := db.Exec(query, link.Id, link.Name, link.Link, link.Details, link.Types, link.Tags)
+		if err != nil {
+			log.Fatal("SQL error ", err)
+		}
+
+		link.Id, err = res.LastInsertId()
+		if err != nil {
+			log.Fatal("Error, res.LastInsertId ", err)
+		}
+
+		return c.JSON(link)
+	})
+
 	app.Listen(":3000")
 }
