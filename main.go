@@ -1,14 +1,15 @@
 package main
 
 import (
+	"database/sql"
 	"log"
+
 	"os"
 	"ps_go/schema"
 
-	"database/sql"
-
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"
+
 	"github.com/joho/godotenv"
 )
 
@@ -53,6 +54,29 @@ func main() {
 		return c.JSON(results)
 	})
 
+	//Get route using parameters
+	app.Get("/api/:id", func(c *fiber.Ctx) error {
+		id := c.Params("id")
+		query := "SELECT * FROM links WHERE id = ? "
+
+		res, err := db.Query(query, id)
+		defer res.Close()
+		if err != nil {
+			log.Fatal("Problem with query", err)
+		}
+		results := []schema.Result{}
+		for res.Next() {
+			var link schema.Result
+			err := res.Scan(&link.Id, &link.Name, &link.Link, &link.Details, &link.Types, &link.Tags)
+			if err != nil {
+				log.Fatal("(GetLinks) res.Scan", err)
+			}
+			results = append(results, link)
+		}
+		return c.JSON(results)
+	})
+
+	//Create and insert into database
 	app.Post("/api", func(c *fiber.Ctx) error {
 		link := new(schema.Result)
 
