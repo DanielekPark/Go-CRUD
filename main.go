@@ -99,5 +99,27 @@ func main() {
 		return c.JSON(link)
 	})
 
+	//Delete route from database using parameters
+	app.Delete("/api/:id", func(c *fiber.Ctx) error {
+		id := c.Params("id")
+		query := "Delete FROM links WHERE id = ? "
+
+		res, err := db.Query(query, id)
+		defer res.Close()
+		if err != nil {
+			log.Fatal("Problem with query", err)
+		}
+		results := []schema.Result{}
+		for res.Next() {
+			var link schema.Result
+			err := res.Scan(&link.Id, &link.Name, &link.Link, &link.Details, &link.Types, &link.Tags)
+			if err != nil {
+				log.Fatal("(GetLinks) res.Scan", err)
+			}
+			results = append(results, link)
+		}
+		return c.JSON(results)
+	})
+
 	app.Listen(":3000")
 }

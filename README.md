@@ -14,7 +14,7 @@ View the older repository using this [Link](https://github.com/DanielekPark/gosq
 
 ### Go packages
 
-[Fiber](https://docs.gofiber.io/v1.x/) Installing Fiber, a Express inspired web framework written in Go
+[Fiber](https://docs.gofiber.io/v1.x/), a Express inspired web framework written in Go
 ```sh
 go get -u github.com/gofiber/fiber
 ```
